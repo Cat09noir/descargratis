@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="-pmEbgCfHt2gbxGJU30dcxnYbjDmMV0M_hTeNhfb9q0" />
+    <title>JHORSAID - Descargador de Videos</title>
+    <style>
+         /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading Styles */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Form Input Styles */
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Button Styles */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+
+        /* Video Quality Selection Styles */
+        #videoQuality {
+            display: block;
+        } /* Responsive Styles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Descargador de Videos</h1>
+        <form id="downloadForm">
+            <select id="downloadType" required>
+                <option value="video">Video (MP4)</option>
+                </select>
+            <select id="videoQuality" required>
+                <optgroup label="HD y Superior">
+                    <option value="3840x2160">4K UHD (3840×2160)</option>
+                    <option value="2560x1440">2K QHD (2560×1440)</option>
+                    <option value="1920x1080">Full HD (1920×1080)</option>
+                </optgroup>
+                <optgroup label="Estándar">
+                    <option value="1280x720">HD (1280×720)</option>
+                    <option value="854x480">SD (854×480)</option>
+                    <option value="640x360">360p (640×360)</option>
+                    <option value="426x240">240p (426×240)</option>
+                </optgroup>
+            </select>
+        </form>
+    </div>
+    <header>
+        <input type="text" placeholder="Buscar o escribir URL" id="search-bar" required>
+        <button id="action-button">Buscar/Descargar</button>
+    </header>
+    <footer>
+        <p>© 2023 JHORSAID. Todos los derechos reservados.</p>
+    </footer>
+    <script>
+        const downloadType = document.getElementById('downloadType');
+        const videoQuality = document.getElementById('videoQuality');
+
+        downloadType.addEventListener('change', function() {
+            videoQuality.classList.toggle('hidden', this.value === 'audio');
+        });
+
+        document.getElementById('action-button').addEventListener('click', function() {
+            const input = document.getElementById('search-bar').value;
+            const urlPattern = /^(https?:\/\/[^\s]+)/; // Simple URL pattern
+
+            if (urlPattern.test(input)) {
+                // If input is a URL, proceed with download
+                const type = downloadType.value;
+                const format = type === 'video' ? 'mp4' : 'mp3';
+                const quality = type === 'video' ? videoQuality.value : '';
+                
+                window.location.href = `/download?url=${encodeURIComponent(input)}&quality=${quality }&format=${format}&type=${type}`;
+            } else {
+                // If input is not a URL, perform a search
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+            }
+        });
+
+    </script>
+</body>
+</html>
